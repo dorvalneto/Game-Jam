@@ -4,27 +4,25 @@ using UnityEngine;
 
 public class KeyBoardUtils : MonoBehaviour
 {
+   private MOVIE dafautl;
    public MOVIE actionKeyBoard()
    {
       if (Input.GetKey(KeyCode.UpArrow))
       {
-         return MOVIE.Cima;
+         dafautl = MOVIE.Cima;
       }
-
-      if (Input.GetKey(KeyCode.DownArrow))
+      if (dafautl == null ||Input.GetKey(KeyCode.DownArrow))
       {
-         return MOVIE.Baixo;
-      }
-
+         dafautl = MOVIE.Baixo;
+      } 
       if (Input.GetKey(KeyCode.LeftArrow))
       {
-         return MOVIE.Esquerda;
-      }
-
+         dafautl = MOVIE.Esquerda;
+      } 
       if (Input.GetKey(KeyCode.RightArrow))
       {
-         return MOVIE.Direita;
+         dafautl = MOVIE.Direita;
       }
-      return MOVIE.Parado;
+      return dafautl;
    }
 }

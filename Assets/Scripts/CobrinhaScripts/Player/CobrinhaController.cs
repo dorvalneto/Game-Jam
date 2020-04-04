@@ -9,7 +9,7 @@ public class CobrinhaController : MonoBehaviour
     public float speed = 5f;
     private MovimentacaoUtils _movimentacaoUtils;
     private KeyBoardUtils _boardUtils;
-    public Rigidbody2D corpoRigido;
+    private Rigidbody2D corpoRigido;
     private List<Transform> _listCorpo;
     void Start()
     {
