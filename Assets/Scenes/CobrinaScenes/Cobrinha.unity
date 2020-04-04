@@ -168,7 +168,7 @@ GameObject:
   - component: {fileID: 304593039}
   m_Layer: 0
   m_Name: BarreiraEsquerda
-  m_TagString: Untagged
+  m_TagString: barreira
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -346,6 +346,83 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &601311321
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 601311322}
+  m_Layer: 0
+  m_Name: Controller
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &601311322
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 601311321}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4.7268605, y: -0.15693504, z: -4.7087154}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1023031943}
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1023031941
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1023031943}
+  - component: {fileID: 1023031942}
+  m_Layer: 0
+  m_Name: SpawnComidaObj
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1023031942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1023031941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 523586baf6565754187e45dac2a32af1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  comida: {fileID: 1797734958334215512, guid: 93feac849c0917740b9a27e502a58b3a, type: 3}
+  camera: {fileID: 342261434}
+  borda: {fileID: 1672630523}
+--- !u!4 &1023031943
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1023031941}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -4.6230216, y: 0.31575269, z: -28.678335}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 601311322}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1439342906
 GameObject:
   m_ObjectHideFlags: 0
@@ -359,7 +436,7 @@ GameObject:
   - component: {fileID: 1439342907}
   m_Layer: 0
   m_Name: BarreiraInferior
-  m_TagString: Untagged
+  m_TagString: barreira
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -467,7 +544,7 @@ GameObject:
   - component: {fileID: 1672630524}
   m_Layer: 0
   m_Name: BarreiraDireita
-  m_TagString: Untagged
+  m_TagString: barreira
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -485,7 +562,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.108469725, y: -0.2645918}
+  m_Offset: {x: -0.05, y: -0.2645918}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -496,7 +573,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 11.990646, y: 1.0625169}
+  m_Size: {x: 11.97, y: 1.0625169}
   m_EdgeRadius: 0
 --- !u!212 &1672630525
 SpriteRenderer:
@@ -575,7 +652,7 @@ GameObject:
   - component: {fileID: 1733598360}
   m_Layer: 0
   m_Name: BarreiraSuperior
-  m_TagString: Untagged
+  m_TagString: barreira
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -604,7 +681,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 26.815445, y: 1.0625169}
+  m_Size: {x: 27.01, y: 1.0625169}
   m_EdgeRadius: 0
 --- !u!212 &1733598361
 SpriteRenderer:
@@ -703,6 +780,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
+  corpo: {fileID: 3519438207891450008, guid: 414eea13b4095164fb0baea4f49a3c38, type: 3}
+  timeMovieCorpo: 0.15
+  repeateRate: 0.15
 --- !u!50 &1735491718
 Rigidbody2D:
   serializedVersion: 4
@@ -723,7 +803,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 7
 --- !u!61 &1735491719
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -812,5 +892,5 @@ Transform:
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
