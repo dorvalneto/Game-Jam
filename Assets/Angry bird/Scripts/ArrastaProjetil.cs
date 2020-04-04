@@ -7,42 +7,44 @@ public class ArrastaProjetil : MonoBehaviour
 
     bool clicou;
 
-    //public float esticadaMaxima = 3.0f;
-    //float esticadaMaximaQuadrada;
+    public float esticadaMaxima = 3.0f;
+    float esticadaMaximaQuadrada;
 
-    //SpringJoint2D mola;
-    //Rigidbody2D meuRigidbody;
+    SpringJoint2D mola;
+    Rigidbody2D meuRigidbody;
 
-    //Transform estilingue;
-    //Ray raioParaMouse;
-    //Ray raioEstilingueFrente;
+    Transform estilingue;
+    Ray raioParaMouse;
+    Ray raioEstilingueFrente;
 
     //CircleCollider2D colisor;
     //float medidaCirculo;
 
-    //Vector2 velocidadeAnterior;
+    Vector2 velocidadeAnterior;
 
     //public LineRenderer linhaFrente;
     //public LineRenderer linhaTras;
 
     //private void Awake()
     //{
-    //    mola = GetComponent<SpringJoint2D>();
-    //    meuRigidbody = GetComponent<Rigidbody2D>();
     //    colisor = GetComponent<CircleCollider2D>();
     //}
 
-    //void Start()
-    //{
-    //    estilingue = mola.connectedBody.transform;
-    //    esticadaMaximaQuadrada = esticadaMaxima * esticadaMaxima;
-    //    raioParaMouse = new Ray(estilingue.position, Vector3.zero);
-    //    raioEstilingueFrente = new Ray(linhaFrente.transform.position, Vector3.zero);
+    void Start()
+    {
+        meuRigidbody = GetComponent<Rigidbody2D>();
+        mola = GetComponent<SpringJoint2D>();
 
-    //    medidaCirculo = colisor.radius;
 
-    //    ConfiguraLinha();
-    //}
+        estilingue = mola.connectedBody.transform;
+        esticadaMaximaQuadrada = esticadaMaxima * esticadaMaxima;
+        raioParaMouse = new Ray(estilingue.position, Vector3.zero);
+        //    raioEstilingueFrente = new Ray(linhaFrente.transform.position, Vector3.zero);
+
+        //    medidaCirculo = colisor.radius;
+
+        //    ConfiguraLinha();
+    }
 
     //void ConfiguraLinha()
     //{
@@ -73,49 +75,49 @@ public class ArrastaProjetil : MonoBehaviour
         if (clicou == true)
             Arrastar();
 
-        //if (mola != null)
-        //{
-            //    if (!meuRigidbody.isKinematic && velocidadeAnterior.sqrMagnitude > meuRigidbody.velocity.sqrMagnitude)
-            //    {
-            //        Destroy(mola);
-            //        meuRigidbody.velocity = velocidadeAnterior;
-            //    }
+        if (mola != null)
+        {
+            if (!meuRigidbody.isKinematic && velocidadeAnterior.sqrMagnitude > meuRigidbody.velocity.sqrMagnitude)
+            {
+                Destroy(mola);
+                meuRigidbody.velocity = velocidadeAnterior;
+            }
 
-            //    if (!clicou)
-            //        velocidadeAnterior = meuRigidbody.velocity;
+            if (!clicou)
+                velocidadeAnterior = meuRigidbody.velocity;
 
-            //    AtualizaLinha();
-            //}
-            //else
-            //{
+            //AtualizaLinha();
+        }
+        else
+        {
 
-        //}
+        }
     }
 
     private void OnMouseDown()
     {
         clicou = true;
-        //mola.enabled = false;
+        mola.enabled = false;
     }
 
     private void OnMouseUp()
     {
         clicou = false;
-        //mola.enabled = true;
-        //meuRigidbody.bodyType = RigidbodyType2D.Dynamic;
+        mola.enabled = true;
+        meuRigidbody.bodyType = RigidbodyType2D.Dynamic;
     }
 
     void Arrastar()
     {
         Vector3 posicaoMouseMundo = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        //Vector2 estilingueParaMouse =  /*posicaoMouseMundo - estilingue.position*/;
+        Vector2 estilingueParaMouse = posicaoMouseMundo - estilingue.position;
 
 
-        //if (estilingueParaMouse.sqrMagnitude > esticadaMaximaQuadrada)
-        //{
-        //    raioParaMouse.direction = estilingueParaMouse;
-        //    posicaoMouseMundo = raioParaMouse.GetPoint(esticadaMaxima);
-        //}
+        if (estilingueParaMouse.sqrMagnitude > esticadaMaximaQuadrada)
+        {
+            raioParaMouse.direction = estilingueParaMouse;
+            posicaoMouseMundo = raioParaMouse.GetPoint(esticadaMaxima);
+        }
 
         posicaoMouseMundo.z = 0;
         transform.position = posicaoMouseMundo;
