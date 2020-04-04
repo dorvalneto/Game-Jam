@@ -1,4 +1,4 @@
-﻿using System;
+﻿    using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -53,7 +53,13 @@ public class TetrisBlock : MonoBehaviour
 
     }
 
-     void CheckForLines(){
+    private void OnDrawGizmos(){
+        // Draw a red sphere at the rotation point
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.TransformPoint(rotationPoint), 1f);
+    }
+
+    void CheckForLines(){
         for (int i = height -1; i >=0; i--){
             if (HasLine(i)) {
                 DeleteLine(i);
