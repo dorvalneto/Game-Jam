@@ -17,58 +17,58 @@ public class ArrastaProjetil : MonoBehaviour
     Ray raioParaMouse;
     Ray raioEstilingueFrente;
 
-    //CircleCollider2D colisor;
-    //float medidaCirculo;
+    CircleCollider2D colisor;
+    float medidaCirculo;
 
     Vector2 velocidadeAnterior;
 
-    //public LineRenderer linhaFrente;
-    //public LineRenderer linhaTras;
+    public LineRenderer linhaFrente;
+    public LineRenderer linhaTras;
 
-    //private void Awake()
-    //{
-    //    colisor = GetComponent<CircleCollider2D>();
-    //}
+    private void Awake()
+    {
+        colisor = GetComponent<CircleCollider2D>();
+        meuRigidbody = GetComponent<Rigidbody2D>();
+        mola = GetComponent<SpringJoint2D>();
+    }
 
     void Start()
     {
-        meuRigidbody = GetComponent<Rigidbody2D>();
-        mola = GetComponent<SpringJoint2D>();
 
 
         estilingue = mola.connectedBody.transform;
         esticadaMaximaQuadrada = esticadaMaxima * esticadaMaxima;
         raioParaMouse = new Ray(estilingue.position, Vector3.zero);
-        //    raioEstilingueFrente = new Ray(linhaFrente.transform.position, Vector3.zero);
+        raioEstilingueFrente = new Ray(linhaFrente.transform.position, Vector3.zero);
 
-        //    medidaCirculo = colisor.radius;
+        medidaCirculo = colisor.radius;
 
-        //    ConfiguraLinha();
+        ConfiguraLinha();
     }
 
-    //void ConfiguraLinha()
-    //{
-    //    linhaFrente.SetPosition(0, linhaFrente.transform.position + Vector3.forward * -0.03f);
-    //    linhaTras.SetPosition(0, linhaTras.transform.position + Vector3.forward * -0.01f);
+    void ConfiguraLinha()
+    {
+        linhaFrente.SetPosition(0, linhaFrente.transform.position + Vector3.forward * -0.03f);
+        linhaTras.SetPosition(0, linhaTras.transform.position + Vector3.forward * -0.01f);
 
-    //    linhaFrente.sortingLayerName = "Frente;";
-    //    linhaTras.sortingLayerName = "Frente;";
+        linhaFrente.sortingLayerName = "Frente;";
+        linhaTras.sortingLayerName = "Frente;";
 
-    //    linhaFrente.sortingOrder = 3;
-    //    linhaTras.sortingOrder = 1;
-    //}
+        linhaFrente.sortingOrder = 3;
+        linhaTras.sortingOrder = 1;
+    }
 
-    //void AtualizaLinha()
-    //{
-    //    Vector2 estilingueParaProgetil = transform.position - linhaFrente.transform.position;
-    //    raioEstilingueFrente.direction = estilingueParaProgetil;
-    //    Vector3 pontoDeAmarra = raioEstilingueFrente.GetPoint(estilingueParaProgetil.magnitude + medidaCirculo);
+    void AtualizaLinha()
+    {
+        Vector2 estilingueParaProgetil = transform.position - linhaFrente.transform.position;
+        raioEstilingueFrente.direction = estilingueParaProgetil;
+        Vector3 pontoDeAmarra = raioEstilingueFrente.GetPoint(estilingueParaProgetil.magnitude + medidaCirculo);
 
-    //    pontoDeAmarra.z = -0.03f;
-    //    linhaFrente.SetPosition(1, pontoDeAmarra);
-    //    pontoDeAmarra.z = -0.01f;
-    //    linhaTras.SetPosition(1, pontoDeAmarra);
-    //}
+        pontoDeAmarra.z = -0.03f;
+        linhaFrente.SetPosition(1, pontoDeAmarra);
+        pontoDeAmarra.z = -0.01f;
+        linhaTras.SetPosition(1, pontoDeAmarra);
+    }
 
     void Update()
     {
@@ -86,7 +86,7 @@ public class ArrastaProjetil : MonoBehaviour
             if (!clicou)
                 velocidadeAnterior = meuRigidbody.velocity;
 
-            //AtualizaLinha();
+            AtualizaLinha();
         }
         else
         {
