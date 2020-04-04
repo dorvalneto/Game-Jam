@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 5263196922383832977}
   - component: {fileID: 1276215188826584629}
   - component: {fileID: 5074558172965094918}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Corpo
-  m_TagString: Untagged
+  m_TagString: corpo
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3519438207891450008}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.67, y: 0.16, z: 0}
+  m_LocalPosition: {x: -3.35, y: 0.25, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 0}
@@ -92,7 +92,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: -0.23367894, y: 0.18232113}
