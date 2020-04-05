@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum MOVIE
+public enum MOVE
 {
 Direita,Esquerda,Cima,Baixo,Parado    
 }
