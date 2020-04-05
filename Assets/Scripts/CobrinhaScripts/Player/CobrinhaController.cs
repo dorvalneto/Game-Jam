@@ -3,14 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Debug = UnityEngine.Debug;
 
 public class CobrinhaController : MonoBehaviour
 {
-    public Text cont;
-    public Text gameOverAviso;
     public float speed = 5f;
     public GameObject corpo;
     private MovimentacaoUtils _movimentacaoUtils;
@@ -19,21 +18,21 @@ public class CobrinhaController : MonoBehaviour
     private List<GameObject> _listCorpo;
     public float timeMovieCorpo;
     public float repeateRate;
-    private float _distanceSpawX;
-    private float _distanceSpaey;
     private ColiderCorpoController _coliderCorpoController;
+    private TouchScreUtils _touchScreUtils;
+    private HUDcontroller _huDcontroller;
     
     void Start()
     {
         _corpoRigido = GetComponent<Rigidbody2D>();
         _movimentacaoUtils = new MovimentacaoUtils();
         _boardUtils = new KeyBoardUtils();
+        _touchScreUtils = new TouchScreUtils();
         _listCorpo = new List<GameObject>();
-        _distanceSpawX = GetComponent<BoxCollider2D>().size.x/2;
-        _distanceSpaey = GetComponent<BoxCollider2D>().size.y/2;
         InvokeRepeating("CorpoMoveLogic",timeMovieCorpo,repeateRate);
         _coliderCorpoController = GetComponentInChildren<ColiderCorpoController>();
-        gameOverAviso.enabled = false;
+        _huDcontroller = GameObject.Find("HUDController").GetComponent<HUDcontroller>();
+        _huDcontroller.setHudState("Snake Bug","0");
     }
 
     // Update is called once per frame
@@ -41,6 +40,11 @@ public class CobrinhaController : MonoBehaviour
     {
         _movimentacaoUtils.movieUtils(_boardUtils.ActionKeyBoard(),_corpoRigido,speed);
         _coliderCorpoController.controleCasoCollider(_boardUtils.ActionKeyBoard());
+        _touchScreUtils.getEventTouch();
+        if (_huDcontroller.finishGame())
+        {
+            GameOver();
+        }
     }
     
     private void OnTriggerEnter2D(Collider2D other)
@@ -49,7 +53,7 @@ public class CobrinhaController : MonoBehaviour
         {
             case "comida":
                 _listCorpo.Add(Instantiate(corpo, transform.position, Quaternion.identity));
-                cont.text = _listCorpo.Count.ToString();
+                _huDcontroller.cont.text = _listCorpo.Count.ToString();
                 Destroy(other.gameObject);
                 Debug.Log(_listCorpo.Count);
                 break;
@@ -81,6 +85,6 @@ public class CobrinhaController : MonoBehaviour
             Destroy(calda);
         }
         Destroy(gameObject);
-        gameOverAviso.enabled = true;
+        _huDcontroller.gameOverLabel.enabled = true;
     }
 }
