@@ -25,6 +25,6 @@ public class SpawnComida : MonoBehaviour
 
     private void spawnComida()
     {
-        Instantiate(comida, new Vector3(Random.Range(barreiraEsquerda.position.x + dis,barreiraDireita.position.x-dis),Random.Range(barreiraInferior.position.y+dis,barreiraSuperior.position.y-dis),10f),Quaternion.identity);
+        Instantiate(comida, new Vector3(Random.Range(barreiraEsquerda.position.x + dis,barreiraDireita.position.x-dis),Random.Range(barreiraInferior.position.y+dis,barreiraSuperior.position.y-dis),5f),Quaternion.identity);
     }
 }

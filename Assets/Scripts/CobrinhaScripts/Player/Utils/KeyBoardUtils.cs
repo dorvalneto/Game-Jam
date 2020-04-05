@@ -13,19 +13,19 @@ public class KeyBoardUtils : MonoBehaviour
    
    public MOVE ActionKeyBoard()
    {
-      if (Input.GetKey(KeyCode.UpArrow) || (angle > 70 && angle < 110) && _moveDefalt != MOVE.Baixo)
+      if ((Input.GetKey(KeyCode.UpArrow) || angle > 70 && angle < 110) && _moveDefalt != MOVE.Baixo)
       {
          _moveDefalt = MOVE.Cima;
       }
-      if (Input.GetKey(KeyCode.DownArrow) || (angle > 250 && angle < 290) && _moveDefalt != MOVE.Cima)
+      if ((Input.GetKey(KeyCode.DownArrow) || angle > 250 && angle < 290) && _moveDefalt != MOVE.Cima)
       {
          _moveDefalt = MOVE.Baixo;
       } 
-      if (Input.GetKey(KeyCode.LeftArrow) || (angle < 200 && angle > 160) && _moveDefalt != MOVE.Direita)
+      if ((Input.GetKey(KeyCode.LeftArrow) || angle < 200 && angle > 160) && _moveDefalt != MOVE.Direita)
       {
          _moveDefalt = MOVE.Esquerda;
       } 
-      if (Input.GetKey(KeyCode.RightArrow) || (angle < 20 || angle > 340) && _moveDefalt!=MOVE.Esquerda)
+      if ((Input.GetKey(KeyCode.RightArrow) || (angle < 20 && angle < 0 ) || angle > 340) && _moveDefalt!=MOVE.Esquerda)
       {
          _moveDefalt = MOVE.Direita;
       }
