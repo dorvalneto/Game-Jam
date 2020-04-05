@@ -168,7 +168,7 @@ MonoBehaviour:
   cont: {fileID: 804008898}
   gameOverLabel: {fileID: 1404120917}
   barTime: {fileID: 1660463584}
-  timeInGame: 30
+  timeInGame: 60
 --- !u!1 &72903903
 GameObject:
   m_ObjectHideFlags: 0
