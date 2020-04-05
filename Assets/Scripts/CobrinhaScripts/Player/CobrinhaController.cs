@@ -35,8 +35,8 @@ public class CobrinhaController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        _boardUtils.getEventTouch();
         _movimentacaoUtils.movieUtils(_boardUtils.ActionKeyBoard(), _corpoRigido, speed);
+        _boardUtils.getEventTouch();
         _coliderCorpoController.controleCasoCollider(_boardUtils.ActionKeyBoard());
         if (_huDcontroller.finishGame())
         {
@@ -49,7 +49,7 @@ public class CobrinhaController : MonoBehaviour
         switch (other.gameObject.tag)
         {
             case "comida":
-                _listCorpo.Add(Instantiate(corpo, transform.position, Quaternion.identity));
+                _listCorpo.Add(Instantiate(corpo, new Vector3(transform.position.x,transform.position.y,2f), Quaternion.identity));
                 _huDcontroller.cont.text = _listCorpo.Count.ToString();
                 Destroy(other.gameObject);
                 Debug.Log(_listCorpo.Count);
@@ -69,7 +69,7 @@ public class CobrinhaController : MonoBehaviour
     {
         if (_listCorpo != null && _listCorpo.Count > 0)
         {
-            _listCorpo.Last().transform.position = transform.position;
+            _listCorpo.Last().transform.position = new Vector3(transform.position.x,transform.position.y,2f);
             _listCorpo.Insert(0, _listCorpo.Last());
             _listCorpo.RemoveAt(_listCorpo.Count - 1);
         }
