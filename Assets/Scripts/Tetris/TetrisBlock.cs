@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class TetrisBlock : MonoBehaviour
 {
@@ -11,6 +12,9 @@ public class TetrisBlock : MonoBehaviour
     public static int height = 20;
     public static int width = 10;
     private static Transform[,] grid = new Transform[width, height];
+    private int lines;
+
+    
 
     void Start(){
         
@@ -60,13 +64,13 @@ public class TetrisBlock : MonoBehaviour
     }
 
     void CheckForLines(){
+        lines = 0;
         for (int i = height -1; i >=0; i--){
             if (HasLine(i)) {
-                DeleteLine(i);
-                RowDown(i);
+                lines++;
             }
         }
-
+        FindObjectOfType<TetrisManager>().AddLine(lines);
     }
 
     private void RowDown(int i){
