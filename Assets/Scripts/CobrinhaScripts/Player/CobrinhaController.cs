@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -19,34 +18,32 @@ public class CobrinhaController : MonoBehaviour
     public float timeMovieCorpo;
     public float repeateRate;
     private ColiderCorpoController _coliderCorpoController;
-    private TouchScreUtils _touchScreUtils;
     private HUDcontroller _huDcontroller;
-    
+
     void Start()
     {
         _corpoRigido = GetComponent<Rigidbody2D>();
         _movimentacaoUtils = new MovimentacaoUtils();
         _boardUtils = new KeyBoardUtils();
-        _touchScreUtils = new TouchScreUtils();
         _listCorpo = new List<GameObject>();
-        InvokeRepeating("CorpoMoveLogic",timeMovieCorpo,repeateRate);
+        InvokeRepeating("CorpoMoveLogic", timeMovieCorpo, repeateRate);
         _coliderCorpoController = GetComponentInChildren<ColiderCorpoController>();
         _huDcontroller = GameObject.Find("HUDController").GetComponent<HUDcontroller>();
-        _huDcontroller.setHudState("Snake Bug","0");
+        _huDcontroller.setHudState("Snake Bug", "0");
     }
 
     // Update is called once per frame
     void Update()
     {
-        _movimentacaoUtils.movieUtils(_boardUtils.ActionKeyBoard(),_corpoRigido,speed);
+        _boardUtils.getEventTouch();
+        _movimentacaoUtils.movieUtils(_boardUtils.ActionKeyBoard(), _corpoRigido, speed);
         _coliderCorpoController.controleCasoCollider(_boardUtils.ActionKeyBoard());
-        _touchScreUtils.getEventTouch();
         if (_huDcontroller.finishGame())
         {
             GameOver();
         }
     }
-    
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         switch (other.gameObject.tag)
@@ -58,24 +55,24 @@ public class CobrinhaController : MonoBehaviour
                 Debug.Log(_listCorpo.Count);
                 break;
             case "barreira":
-               GameOver();
+                GameOver();
                 break;
             case "corpo":
                 GameOver();
                 break;
         }
+
         Debug.Log("colider");
     }
-    
+
     private void CorpoMoveLogic()
     {
         if (_listCorpo != null && _listCorpo.Count > 0)
         {
             _listCorpo.Last().transform.position = transform.position;
-            _listCorpo.Insert(0,_listCorpo.Last());
+            _listCorpo.Insert(0, _listCorpo.Last());
             _listCorpo.RemoveAt(_listCorpo.Count - 1);
         }
-        
     }
 
     private void GameOver()
@@ -84,6 +81,7 @@ public class CobrinhaController : MonoBehaviour
         {
             Destroy(calda);
         }
+
         Destroy(gameObject);
         _huDcontroller.gameOverLabel.enabled = true;
     }
