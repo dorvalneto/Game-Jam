@@ -9,38 +9,29 @@ public class ColiderCorpoController : MonoBehaviour
     public CircleCollider2D esquerda;
     public CircleCollider2D cima;
     public CircleCollider2D baixo;
-    void Start()
+    public void controleCasoCollider(MOVE move)
     {
-        direita.enabled = false;
-        esquerda.enabled = false;
-        cima.enabled = false;
-        baixo.enabled = false;
-    }
-
-    public void controleCasoCollider(MOVIE movie)
-    {
-        Debug.Log("AAAA");
-        switch (movie)
+        switch (move)
         {
-            case MOVIE.Cima:
+            case MOVE.Cima:
                 direita.enabled = false;
                 esquerda.enabled = false;
                 cima.enabled = true;
                 baixo.enabled = false;
                 break;
-            case MOVIE.Baixo:
+            case MOVE.Baixo:
                 direita.enabled = false;
                 esquerda.enabled = false;
                 cima.enabled = false;
                 baixo.enabled = true;
                 break;
-            case MOVIE.Direita:
+            case MOVE.Direita:
                 direita.enabled = true;
                 esquerda.enabled = false;
                 cima.enabled = false;
                 baixo.enabled = false;
                 break;
-            case MOVIE.Esquerda:
+            case MOVE.Esquerda:
                 direita.enabled = false;
                 esquerda.enabled = true;
                 cima.enabled = false;
