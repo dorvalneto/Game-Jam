@@ -7,7 +7,9 @@ public class GridController : MonoBehaviour
 {
     public int x;
     public int y;
-    [FormerlySerializedAs("Prefabs")] public GameObject[] _prefabsList;
+    [FormerlySerializedAs("GridWidth")] public float gridWidth = 1f;
+    [FormerlySerializedAs("GridHeighth")] public float gridHeighth = 1f;
+        [FormerlySerializedAs("Prefabs")] public GameObject[] _prefabsList;
     private ItemCandy[,] _itemCandies;
     void Start()
     {
@@ -16,6 +18,7 @@ public class GridController : MonoBehaviour
 
     void FillGrid()
     {
+        _itemCandies = new ItemCandy[this.x,this.y];
         for (int x = 0; x < this.x; x++)
         {
             for (int y = 0; y < this.y; y++)
@@ -28,7 +31,7 @@ public class GridController : MonoBehaviour
     ItemCandy gridPopulate(int x, int y)
     {
         GameObject randomItem = _prefabsList[Random.Range(0, _prefabsList.Length)];
-       GameObject newItemGrid = (GameObject) Instantiate(randomItem, new Vector3(x, y), Quaternion.identity);
+       GameObject newItemGrid = (GameObject) Instantiate(randomItem, new Vector3(x * gridWidth, y * gridHeighth), Quaternion.identity);
        newItemGrid.GetComponent<ItemCandy>().ItemPosicao(x,y);
        return newItemGrid.GetComponent<ItemCandy>();
     }
