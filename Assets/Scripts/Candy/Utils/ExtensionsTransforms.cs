@@ -12,7 +12,7 @@ public static class ExtensionsTransforms
         float conter = 0;
         while (conter < duration)
         {
-            float movAmount = (Time.deltaTime * diffLength/duration);
+            float movAmount = (Time.deltaTime * diffLength)/duration;
             t.position += diffVecto * movAmount;
             conter += Time.deltaTime;
             yield return null;

@@ -207,14 +207,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cb9b4898ef03f040a0edaa8d0428abc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  x: 4
-  y: 5
-  gridWidth: 2
-  gridHeighth: 2
+  xSize: 4
+  ySize: 5
+  gridWidth: 5
+  gridHeighth: 5
   _prefabsList:
   - {fileID: 2679490284555297884, guid: 1c7a261b9354d5e438cd2a368b450a0d, type: 3}
   - {fileID: 3226011192705604128, guid: 94204c7369da6644f80f6be1ed504624, type: 3}
   - {fileID: 4320748916644481023, guid: e08cb88d8e050e24195ba3d28a1f40ff, type: 3}
+  - {fileID: 1318656971827170928, guid: 292a7fa7675f15745a392a7c89167bcd, type: 3}
 --- !u!4 &1531235476
 Transform:
   m_ObjectHideFlags: 0
