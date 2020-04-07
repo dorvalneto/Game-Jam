@@ -22,12 +22,12 @@ public class GridController : MonoBehaviour
         GenerateIdetificacoPrefabs();
         FillGrid();
         ClearGrid();
-        ItemCandy.clickItemHandler += clickItem;
+        ItemCandy.clickItemHandler += ClickItem;
     }
 
     private void OnDisable()
     {
-        ItemCandy.clickItemHandler -= clickItem;
+        ItemCandy.clickItemHandler -= ClickItem;
     }
 
     void FillGrid()
@@ -71,7 +71,7 @@ public class GridController : MonoBehaviour
         return newItemGrid;
     }
 
-    void clickItem(ItemCandy item)
+    void ClickItem(ItemCandy item)
     {
         if (item == _itemAtual || !canPlay)
         {
@@ -99,17 +99,19 @@ public class GridController : MonoBehaviour
         }
     }
 
-    IEnumerator TrocarItem(ItemCandy a, ItemCandy b)
+    IEnumerator Swap(ItemCandy a, ItemCandy b)
     {
+        float movDuration = 0.1f;
+        Vector3 tempPositio = a.transform.position;
         ChagedRigidbodyStatus(false);
-        StartCoroutine(a.transform.Move(b.transform.position, 0.1f));
-        StartCoroutine(b.transform.Move(a.transform.position, 0.1f));
-        yield return new WaitForSeconds(delayBetweenMatch);
-        TrocaIndices(a, b);
+        StartCoroutine(a.transform.Move(b.transform.position, movDuration));
+        StartCoroutine(b.transform.Move(tempPositio, movDuration));
+        yield return new WaitForSeconds(movDuration);
+        SwapIndices(a, b);
         ChagedRigidbodyStatus(true);
     }
 
-    void TrocaIndices(ItemCandy a, ItemCandy b)
+    void SwapIndices(ItemCandy a, ItemCandy b)
     {
         ItemCandy tempA = _itemCandies[a.x, a.y];
         _itemCandies[a.x, a.y] = b;
@@ -179,14 +181,14 @@ public class GridController : MonoBehaviour
         {
             machInfo.matchInicioEixoX = GetMinimuX(horizontalMach);
             machInfo.matchFimEixoX = GetMaximoX(horizontalMach);
-            machInfo.matchIncioEixoY = horizontalMach[0].y;
+            machInfo.matchIncioEixoY = machInfo.matchFimEixoY = horizontalMach[0].y;
             machInfo.match = horizontalMach;
         }
         else if (verticalMatch.Count >= 3)
         {
             machInfo.matchIncioEixoY = GetMinimuY(verticalMatch);
             machInfo.matchFimEixoY = GetMaximoY(verticalMatch);
-            machInfo.matchIncioEixoY = verticalMatch[0].x;
+            machInfo.matchInicioEixoX = machInfo.matchFimEixoX = verticalMatch[0].x;
             machInfo.match = verticalMatch;
         }
 
@@ -240,12 +242,12 @@ public class GridController : MonoBehaviour
     IEnumerator tryMactch(ItemCandy a, ItemCandy b)
     {
         canPlay = false;
-        yield return StartCoroutine(TrocarItem(a, b));
+        yield return StartCoroutine(Swap(a, b));
         MachInfo matchA = GetMatchInfo(a);
         MachInfo matchB = GetMatchInfo(b);
         if (!matchA.validMatch && !matchB.validMatch)
         {
-            yield return StartCoroutine(TrocarItem(a, b));
+            yield return StartCoroutine(Swap(a, b));
             yield break;
         }
 

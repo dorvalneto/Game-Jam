@@ -25,7 +25,7 @@ public class ItemCandy : MonoBehaviour
     {
         this.x = x;
         this.y = y;
-        gameObject.name = string.Format("poscao: [{0}], [{1}]", x, y);
+        gameObject.name = string.Format("posicao: [{0}], [{1}]", x, y);
     }
 
     private void OnMouseDown()
