@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http.Headers;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
@@ -17,6 +19,7 @@ public class GridController : MonoBehaviour
 
     void Start()
     {
+        getPrefabsInPhath();
         FillGrid();
         ItemCandy.clickItemHandler += clickItem;
     }
@@ -60,7 +63,7 @@ public class GridController : MonoBehaviour
             float yDiff = Mathf.Abs(item.y - _itemAtual.y);
             if (xDiff + yDiff == 1)
             {
-                StartCoroutine(TrocarItem(_itemAtual, item));
+                StartCoroutine(tryMactch(_itemAtual, item));
             }
             _itemAtual = null;
         }
@@ -100,12 +103,147 @@ public class GridController : MonoBehaviour
         }
     }
 
-    // void getPrefabsInPhath()
-    // {
-    //     _itensGrid = Resources.LoadAll<GameObject>("CandyPrefabs");
-    //     for (int i = 0; i < _itensGrid.Length; i++)
-    //     {
-    //         _itensGrid[i].GetComponent<ItemCandy>().idetificacao = i;
-    //     }
-    // }
+
+    List<ItemCandy> machHorizontal(ItemCandy item)
+    {
+        List<ItemCandy> itensHorizontal = new List<ItemCandy>{item};
+        int esquerda = item.x - 1;
+        int direita = item.x + 1;
+        while (esquerda>=0 && _itemCandies[esquerda,item.y].idetificacao == item.idetificacao)
+        {
+            itensHorizontal.Add(_itemCandies[esquerda,item.y]);
+            esquerda--;
+        }
+
+        while (direita<x && _itemCandies[direita,item.y].idetificacao == item.idetificacao)
+        {
+            itensHorizontal.Add(_itemCandies[direita,item.y]);
+            direita++;
+        }
+
+        return itensHorizontal;
+    }
+
+    List<ItemCandy> machVertical(ItemCandy itemCandy)
+    {
+        List<ItemCandy> itensVertical = new List<ItemCandy>{itemCandy};
+        int baixo = itemCandy.y - 1;
+        int cima = itemCandy.y + 1;
+        while (baixo>=0 && _itemCandies[itemCandy.x,baixo].idetificacao == itemCandy.idetificacao)
+        {
+            itensVertical.Add(_itemCandies[itemCandy.x,baixo]);
+            baixo--;
+        }
+
+        while (cima<y && _itemCandies[itemCandy.x,cima].idetificacao == itemCandy.idetificacao)
+        {
+            itensVertical.Add(_itemCandies[itemCandy.x,cima]);
+            cima++;
+        }
+
+        return itensVertical;
+    }
+
+    MachInfo GetMatchInfo(ItemCandy itemCandy)
+    {
+        MachInfo machInfo = new MachInfo();
+        machInfo.match = null;
+        List<ItemCandy> horizontalMach = machHorizontal(itemCandy);
+        List<ItemCandy> verticalMatch = machVertical(itemCandy);
+        if (horizontalMach.Count > 3 && horizontalMach.Count > verticalMatch.Count )
+        {
+            //definir regras
+            machInfo.matchInicioEixoX = GetMinimuX(horizontalMach);
+            machInfo.matchFimEixoX = GetMaximoX(horizontalMach);
+            machInfo.matchIncioEixoY = horizontalMach[0].y;
+            machInfo.match = horizontalMach;
+        }
+        else if(verticalMatch.Count>3)
+        {
+            //regras e pa
+            machInfo.matchIncioEixoY = GetMinimuY(verticalMatch);
+            machInfo.matchFimEixoY = GetMaximoY(verticalMatch);
+            machInfo.matchIncioEixoY = verticalMatch[0].x;
+            machInfo.match = verticalMatch;
+        }
+        return machInfo;
+    }
+
+    int GetMinimuX(List<ItemCandy> itemCandies)
+         {
+             float[] indices = new float[itemCandies.Count];
+             for (int i = 0; i < indices.Length; i++)
+             {
+                 indices[i] = itemCandies[i].x;
+             }
+     
+             return (int) Mathf.Min(indices);
+         }
+    int GetMaximoX(List<ItemCandy> itemCandies)
+    {
+        float[] indices = new float[itemCandies.Count];
+        for (int i = 0; i < indices.Length; i++)
+        {
+            indices[i] = itemCandies[i].x;
+        }
+
+        return (int) Mathf.Max(indices);
+    }
+    int GetMinimuY(List<ItemCandy> itemCandies)
+    {
+        float[] indices = new float[itemCandies.Count];
+        for (int i = 0; i < indices.Length; i++)
+        {
+            indices[i] = itemCandies[i].y;
+        }
+     
+        return (int) Mathf.Min(indices);
+    }
+    int GetMaximoY(List<ItemCandy> itemCandies)
+    {
+        float[] indices = new float[itemCandies.Count];
+        for (int i = 0; i < indices.Length; i++)
+        {
+            indices[i] = itemCandies[i].y;
+        }
+
+        return (int) Mathf.Max(indices);
+    }
+
+    IEnumerator tryMactch(ItemCandy a,ItemCandy b)
+    {
+        yield return StartCoroutine(TrocarItem(a, b));
+        MachInfo matchA = GetMatchInfo(a);
+        MachInfo matchB = GetMatchInfo(b);
+        if (!matchA.validMatch && !matchB.validMatch)
+        {
+            yield return StartCoroutine(TrocarItem(a, b));
+            yield break;
+        }
+
+        if (matchA.validMatch)
+        {
+            yield return StartCoroutine(DestroyItems(matchA.match));
+        }else if (matchB.validMatch)
+        {
+            yield return StartCoroutine(DestroyItems(matchB.match));
+        }
+    }
+
+    IEnumerator DestroyItems(List<ItemCandy> itens)
+    {
+        foreach (var iten in itens)
+        {
+            yield return StartCoroutine(iten.transform.Scale(Vector3.zero, 0.05f));
+            Destroy(iten.gameObject);
+        }
+    }
+
+    void getPrefabsInPhath()
+    {
+        for (int i = 0; i < _prefabsList.Length; i++)
+        {
+            _prefabsList[i].GetComponent<ItemCandy>().idetificacao = i;
+        }
+    }
 }
