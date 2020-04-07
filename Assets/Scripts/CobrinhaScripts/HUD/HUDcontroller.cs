@@ -14,6 +14,8 @@ public class HUDcontroller : MonoBehaviour
     public Image barTime;
 
     public float timeInGame;
+    
+    private AudioSource audio;
 
     private void Start()
     {
@@ -36,10 +38,18 @@ public class HUDcontroller : MonoBehaviour
         return this.barTime.fillAmount;
     }
 
+    public void gameOverSound()
+    {
+        audio = GetComponent<AudioSource>();
+        audio.enabled = true;
+        audio.Play();
+    }
+
     public bool finishGame()
     {
         if (timeGame() <= 0)
         {
+            gameOverSound();
             return true;
         }
         return false;

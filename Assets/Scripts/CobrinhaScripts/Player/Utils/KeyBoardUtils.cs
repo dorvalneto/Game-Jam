@@ -6,8 +6,8 @@ public class KeyBoardUtils : MonoBehaviour
 {
 
    private MOVE _moveDefalt = MOVE.Direita;
-   Vector3 init = new Vector3();
-   Vector3 fim = new Vector3();
+   Vector3 _init;
+   Vector3 _fim;
    private bool touchEvent;
    public float angle;
    
@@ -41,13 +41,13 @@ public class KeyBoardUtils : MonoBehaviour
          if (touch.phase == TouchPhase.Began)
          {
             Debug.Log("Inicio");
-            init = touch.position;
+            _init = touch.position;
          }
 
          if (touch.phase == TouchPhase.Ended)
          {
-            fim = touch.position;
-            angle = calculateAngle(init, fim);
+            _fim = touch.position;
+            angle = calculateAngle(_init, _fim);
          }
       }
    }
