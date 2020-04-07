@@ -19,6 +19,8 @@ public class CobrinhaController : MonoBehaviour
     public float repeateRate;
     private ColiderCorpoController _coliderCorpoController;
     private HUDcontroller _huDcontroller;
+    public AudioClip coletandoComida;
+    private AudioSource soundEmmiter;
 
     void Start()
     {
@@ -30,6 +32,7 @@ public class CobrinhaController : MonoBehaviour
         _coliderCorpoController = GetComponentInChildren<ColiderCorpoController>();
         _huDcontroller = GameObject.Find("HUDController").GetComponent<HUDcontroller>();
         _huDcontroller.setHudState("Snake Bug", "0");
+        soundEmmiter = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -49,15 +52,19 @@ public class CobrinhaController : MonoBehaviour
         switch (other.gameObject.tag)
         {
             case "comida":
-                _listCorpo.Add(Instantiate(corpo, new Vector3(transform.position.x,transform.position.y,2f), Quaternion.identity));
+               _listCorpo.Add(Instantiate(corpo, new Vector3(transform.position.x,transform.position.y,2f), Quaternion.identity));
                 _huDcontroller.cont.text = _listCorpo.Count.ToString();
-                Destroy(other.gameObject);
-                Debug.Log(_listCorpo.Count);
-                break;
+               Destroy(other.gameObject);
+               soundEmmiter.clip = coletandoComida;
+               soundEmmiter.Play();
+               Debug.Log(_listCorpo.Count);
+               break;
             case "barreira":
+                _huDcontroller.gameOverSound();
                 GameOver();
                 break;
             case "corpo":
+                _huDcontroller.gameOverSound();
                 GameOver();
                 break;
         }
