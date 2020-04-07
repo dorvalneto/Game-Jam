@@ -14,6 +14,7 @@ public class GridController : MonoBehaviour
     private ItemCandy[,] _itemCandies;
     private ItemCandy _itemAtual;
     private bool canPlay;
+    private float delayBetweenMatch = 0.2f;
 
     void Start()
     {
@@ -103,7 +104,7 @@ public class GridController : MonoBehaviour
         ChagedRigidbodyStatus(false);
         StartCoroutine(a.transform.Move(b.transform.position, 0.1f));
         StartCoroutine(b.transform.Move(a.transform.position, 0.1f));
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(delayBetweenMatch);
         TrocaIndices(a, b);
         ChagedRigidbodyStatus(true);
     }
@@ -251,13 +252,15 @@ public class GridController : MonoBehaviour
         if (matchA.validMatch)
         {
             yield return StartCoroutine(DestroyItems(matchA.match));
-            yield return new WaitForSeconds(0.1f);
+            Debug.Log("Destroy MatchA");
+            yield return new WaitForSeconds(delayBetweenMatch);
             yield return StartCoroutine(UpdateGrideAfterMatch(matchA));
         }
         else if (matchB.validMatch)
         {
             yield return StartCoroutine(DestroyItems(matchB.match));
-            yield return new WaitForSeconds(0.1f);
+            Debug.Log("Destroy MatchB");
+            yield return new WaitForSeconds(delayBetweenMatch);
             yield return StartCoroutine(UpdateGrideAfterMatch(matchB));
         }
 
@@ -336,7 +339,8 @@ public class GridController : MonoBehaviour
                 {
                     // yield return new WaitForSeconds(0.1f);
                     yield return StartCoroutine(DestroyItems(machInfo.match));
-                    yield return new WaitForSeconds(0.1f);
+                    Debug.Log("Destroy Update");
+                    yield return new WaitForSeconds(delayBetweenMatch);
                     yield return StartCoroutine(UpdateGrideAfterMatch(machInfo));
                 }
             }
