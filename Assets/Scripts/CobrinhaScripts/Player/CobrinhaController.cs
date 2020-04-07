@@ -1,16 +1,14 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Debug = UnityEngine.Debug;
 
 public class CobrinhaController : MonoBehaviour
 {
-    public Text cont;
-    public Text gameOverAviso;
     public float speed = 5f;
     public GameObject corpo;
     private MovimentacaoUtils _movimentacaoUtils;
@@ -19,59 +17,62 @@ public class CobrinhaController : MonoBehaviour
     private List<GameObject> _listCorpo;
     public float timeMovieCorpo;
     public float repeateRate;
-    private float _distanceSpawX;
-    private float _distanceSpaey;
     private ColiderCorpoController _coliderCorpoController;
-    
+    private HUDcontroller _huDcontroller;
+
     void Start()
     {
         _corpoRigido = GetComponent<Rigidbody2D>();
         _movimentacaoUtils = new MovimentacaoUtils();
         _boardUtils = new KeyBoardUtils();
         _listCorpo = new List<GameObject>();
-        _distanceSpawX = GetComponent<BoxCollider2D>().size.x/2;
-        _distanceSpaey = GetComponent<BoxCollider2D>().size.y/2;
-        InvokeRepeating("CorpoMoveLogic",timeMovieCorpo,repeateRate);
+        InvokeRepeating("CorpoMoveLogic", timeMovieCorpo, repeateRate);
         _coliderCorpoController = GetComponentInChildren<ColiderCorpoController>();
-        gameOverAviso.enabled = false;
+        _huDcontroller = GameObject.Find("HUDController").GetComponent<HUDcontroller>();
+        _huDcontroller.setHudState("Snake Bug", "0");
     }
 
     // Update is called once per frame
     void Update()
     {
-        _movimentacaoUtils.movieUtils(_boardUtils.ActionKeyBoard(),_corpoRigido,speed);
+        _movimentacaoUtils.movieUtils(_boardUtils.ActionKeyBoard(), _corpoRigido, speed);
+        _boardUtils.getEventTouch();
         _coliderCorpoController.controleCasoCollider(_boardUtils.ActionKeyBoard());
+        if (_huDcontroller.finishGame())
+        {
+            GameOver();
+        }
     }
-    
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         switch (other.gameObject.tag)
         {
             case "comida":
-                _listCorpo.Add(Instantiate(corpo, transform.position, Quaternion.identity));
-                cont.text = _listCorpo.Count.ToString();
+                _listCorpo.Add(Instantiate(corpo, new Vector3(transform.position.x,transform.position.y,2f), Quaternion.identity));
+                _huDcontroller.cont.text = _listCorpo.Count.ToString();
                 Destroy(other.gameObject);
                 Debug.Log(_listCorpo.Count);
                 break;
             case "barreira":
-               GameOver();
+                GameOver();
                 break;
             case "corpo":
                 GameOver();
                 break;
         }
+
         Debug.Log("colider");
     }
-    
+
     private void CorpoMoveLogic()
     {
         if (_listCorpo != null && _listCorpo.Count > 0)
         {
-            _listCorpo.Last().transform.position = transform.position;
-            _listCorpo.Insert(0,_listCorpo.Last());
+            _listCorpo.Last().transform.position = new Vector3(transform.position.x,transform.position.y,2f);
+            _listCorpo.Insert(0, _listCorpo.Last());
             _listCorpo.RemoveAt(_listCorpo.Count - 1);
         }
-        
     }
 
     private void GameOver()
@@ -80,7 +81,8 @@ public class CobrinhaController : MonoBehaviour
         {
             Destroy(calda);
         }
+
         Destroy(gameObject);
-        gameOverAviso.enabled = true;
+        _huDcontroller.gameOverLabel.enabled = true;
     }
 }
