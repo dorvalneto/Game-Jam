@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class ArrastaProjetil : MonoBehaviour
 {
-
+   
+     private MOVE _moveDefalt = MOVE.Direita;
+   Vector3 _init;
+   Vector3 _fim;
+   private bool touchEvent;
+   public float angle;
     bool clicou;
 
     public float esticadaMaxima = 3.0f;
@@ -73,25 +78,25 @@ public class ArrastaProjetil : MonoBehaviour
     void Update()
     {
         if (clicou == true)
-            Arrastar();
+            //Arrastar();
 
-        if (mola != null)
-        {
-            if (!meuRigidbody.isKinematic && velocidadeAnterior.sqrMagnitude > meuRigidbody.velocity.sqrMagnitude)
+            if (mola != null)
             {
-                Destroy(mola);
-                meuRigidbody.velocity = velocidadeAnterior;
+                if (!meuRigidbody.isKinematic && velocidadeAnterior.sqrMagnitude > meuRigidbody.velocity.sqrMagnitude)
+                {
+                    Destroy(mola);
+                    meuRigidbody.velocity = velocidadeAnterior;
+                }
+
+                if (!clicou)
+                    velocidadeAnterior = meuRigidbody.velocity;
+
+                AtualizaLinha();
             }
+            else
+            {
 
-            if (!clicou)
-                velocidadeAnterior = meuRigidbody.velocity;
-
-            AtualizaLinha();
-        }
-        else
-        {
-
-        }
+            }
     }
 
     private void OnMouseDown()
@@ -106,20 +111,46 @@ public class ArrastaProjetil : MonoBehaviour
         mola.enabled = true;
         meuRigidbody.bodyType = RigidbodyType2D.Dynamic;
     }
-
-    void Arrastar()
+    public void getEventTouch()
     {
-        Vector3 posicaoMouseMundo = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 estilingueParaMouse = posicaoMouseMundo - estilingue.position;
-
-
-        if (estilingueParaMouse.sqrMagnitude > esticadaMaximaQuadrada)
+        if (Input.touchCount > 0)
         {
-            raioParaMouse.direction = estilingueParaMouse;
-            posicaoMouseMundo = raioParaMouse.GetPoint(esticadaMaxima);
-        }
+            Debug.Log("Touch");
+            Touch touch = Input.GetTouch(0);
+            if (touch.phase == TouchPhase.Began)
+            {
+                Debug.Log("Inicio");
+                _init = touch.position;
+            }
 
-        posicaoMouseMundo.z = 0;
-        transform.position = posicaoMouseMundo;
+            if (touch.phase == TouchPhase.Ended)
+            {
+                _fim = touch.position;
+                angle = calculateAngle(_init, _fim);
+            }
+        }
+        void Arrastar()
+        {
+            Vector3 posicaoMouseMundo = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 estilingueParaMouse = posicaoMouseMundo - estilingue.position;
+
+
+            if (estilingueParaMouse.sqrMagnitude > esticadaMaximaQuadrada)
+            {
+                raioParaMouse.direction = estilingueParaMouse;
+                posicaoMouseMundo = raioParaMouse.GetPoint(esticadaMaxima);
+            }
+
+            posicaoMouseMundo.z = 0;
+            transform.position = posicaoMouseMundo;
+        }
+      
+    }
+    private float calculateAngle(Vector3 inicio, Vector3 fim)
+    {
+        float x = inicio.x - fim.x;
+        float y = inicio.y - fim.y;
+        float angulo = Mathf.Atan2(y, x);
+        return ((angulo * Mathf.Rad2Deg) + ((2 * Mathf.PI * Mathf.Rad2Deg)) - 180f);
     }
 }
