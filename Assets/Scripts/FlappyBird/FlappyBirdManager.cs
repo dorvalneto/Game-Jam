@@ -19,4 +19,8 @@ public class FlappyBirdManager : MonoBehaviour
     public void Replay(){
         SceneManager.LoadScene("FlappyBirdScene");
     }
+
+    public void LoadScene(string scene){
+        SceneManager.LoadScene(scene);
+    }
 }
