@@ -12,11 +12,24 @@ public class TetrisManager : MonoBehaviour
     public Text textUI;
     public Image[] images;
     public GameObject gameOverCanvas;
+    public TetrisBlock currentBlock;
 
+    
+    public void Rotate(){
+        currentBlock.Rotate();
+    }
+
+    public void MoveRight(){
+        currentBlock.MoveRight();
+    }
+    public void MoveLeft(){
+        currentBlock.MoveLeft();
+    }
     // Start is called before the first frame update
     void Start(){
         Time.timeScale = 1;
     }
+
 
     // Update is called once per frame
     void Update()
