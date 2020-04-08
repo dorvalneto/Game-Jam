@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Menu Fase.unity
+    guid: 759fd707356084743ac72ba55cae71c3
+  - enabled: 1
     path: Assets/Angry bird/Cenas/Menu.unity
     guid: 106139a72dbe04368ba6719a1553bc9c
   - enabled: 1
@@ -20,9 +23,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/FlappyBirdScenes/FlappyBirdScene.unity
     guid: 79e4fdf2ab24b824bbea96ebf31feaa6
-  - enabled: 1
-    path: Assets/Menu Fase.unity
-    guid: 759fd707356084743ac72ba55cae71c3
   - enabled: 1
     path: Assets/Doutor/Doutor.unity
     guid: 562b3c282981d54409520f1490e9bb44
