@@ -13,34 +13,48 @@ public class TetrisBlock : MonoBehaviour
     public static int width = 10;
     private static Transform[,] grid = new Transform[width, height];
     private int lines;
-
+    private bool moveLeft = false, moveRight = false, rotate = false;
     
 
     void Start(){
-        
+        FindObjectOfType<TetrisManager>().currentBlock = this;
     }
 
+    public void MoveLeft(){
+        moveLeft = true;
+    }
+    public void MoveRight(){
+        moveRight = true;
+    }
+
+    public void Rotate() {
+        rotate = true;
+    }
+
+
     void Update(){
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        if (Input.GetKeyDown(KeyCode.LeftArrow) || moveLeft)
         {
             transform.position += new Vector3(-1, 0, 0);
             if (!ValidMove())
                 transform.position -= new Vector3(-1, 0, 0);
-            
+            moveLeft = false;
         }
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
+        else if (Input.GetKeyDown(KeyCode.RightArrow) || moveRight)
         {
             transform.position -= new Vector3(-1, 0, 0);
             if (!ValidMove())
                 transform.position += new Vector3(-1, 0, 0);
+            moveRight = false;
             
         }
-        else if (Input.GetKeyDown(KeyCode.UpArrow))
+        else if (Input.GetKeyDown(KeyCode.UpArrow) || rotate)
         {
             //rotate !
             transform.RotateAround(transform.TransformPoint(rotationPoint), new Vector3(0,0,1), 90);
             if (!ValidMove())
                 transform.RotateAround(transform.TransformPoint(rotationPoint), new Vector3(0, 0, 1), -90);
+            rotate = false;
 
         }
         if (Time.time - previousTime > (Input.GetKeyDown(KeyCode.DownArrow) ? fallTime / 10 : fallTime)){
